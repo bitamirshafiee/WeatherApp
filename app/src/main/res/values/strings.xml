@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="str_weather_condition">weather condition showing by image</string>
 </resources>
