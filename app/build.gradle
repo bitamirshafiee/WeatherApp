@@ -97,8 +97,6 @@ dependencies {
     implementation deps.okhhtp
     implementation deps.logging
 
-
-
     //test
     testImplementation deps.junit
     androidTestImplementation deps.androidxJunit
