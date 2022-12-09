@@ -25,6 +25,7 @@ versions.google_services_version = '4.3.10'
 versions.compose_activity_version = '1.5.1'
 versions.multidex_version = '2.0.1'
 versions.kotlin_coroutine_test_version = '1.6.3'
+versions.navigation_compose_version = '2.5.3'
 
 deps.kotlin_coroutine_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.kotlin_coroutine_test_version"
 deps.multidex = "androidx.multidex:multidex:$versions.multidex_version"
@@ -52,6 +53,7 @@ compose.material = "androidx.compose.material3:material3"
 compose.lifecycle_viewmodel_compose = "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.lifecycle_viewmodel_compose_version"//
 compose.compose_test = "androidx.compose.ui:ui-test-junit4"
 compose.compose_activity = "androidx.activity:activity-compose:$versions.compose_activity_version"
+compose.navigation = "androidx.navigation:navigation-compose:$versions.navigation_compose_version"
 deps.compose = compose
 
 def kotlin = [:]

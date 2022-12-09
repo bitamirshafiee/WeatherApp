@@ -84,6 +84,7 @@ dependencies {
     implementation deps.compose.ui_tooling_preview
     implementation deps.compose.material
     implementation deps.compose.lifecycle_viewmodel_compose
+    implementation deps.compose.navigation
 
     implementation deps.viewmodel
 
@@ -95,8 +96,6 @@ dependencies {
 
     implementation deps.okhhtp
     implementation deps.logging
-
-
 
     //test
     testImplementation deps.junit
