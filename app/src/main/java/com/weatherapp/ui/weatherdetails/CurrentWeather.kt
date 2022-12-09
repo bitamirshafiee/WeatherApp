@@ -1,16 +1,18 @@
 package com.weatherapp.ui.weatherdetails
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.weatherapp.R
@@ -23,17 +25,34 @@ fun CurrentWeather() {
         shape = RoundedCornerShape(5.dp),
         modifier = Modifier
             .fillMaxWidth()
+            .padding(all = 16.dp)
             .wrapContentHeight()
     ) {
-        Image(
+        Column(
             modifier = Modifier
-                .padding(bottom = 16.dp)
-                .size(75.dp),
-            painter = painterResource(id = chooseDrawableAccordingToWeatherState(0)),
-            contentDescription = stringResource(
-                id = R.string.str_weather_condition
+                .wrapContentHeight()
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            Image(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .wrapContentHeight()
+                    .padding(vertical = 16.dp)
+                    .size(75.dp),
+                painter = painterResource(id = chooseDrawableAccordingToWeatherState(weatherCode = 0)),
+                contentDescription = stringResource(
+                    id = R.string.str_weather_condition
+                )
             )
-        )
+
+            Text(
+                text ="city",
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(all = 8.dp),
+            )
+        }
 
     }
 }
