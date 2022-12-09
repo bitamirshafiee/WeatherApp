@@ -8,5 +8,6 @@ import androidx.compose.ui.Modifier
 @Composable
 fun WeatherDetails() {
     Column(modifier = Modifier.fillMaxSize()) {
+        CurrentWeather()
     }
 }
