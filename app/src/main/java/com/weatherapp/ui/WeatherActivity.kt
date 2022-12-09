@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import com.weatherapp.ui.WeatherAppNavHost
 import com.weatherapp.ui.theme.WeatherAppTheme
 
-class MainActivity : ComponentActivity() {
+class WeatherActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
