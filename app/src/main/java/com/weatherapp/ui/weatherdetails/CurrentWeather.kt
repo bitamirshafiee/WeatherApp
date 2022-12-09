@@ -46,11 +46,32 @@ fun CurrentWeather() {
                     id = R.string.str_weather_condition
                 )
             )
-
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = "Stockholm",
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier
+                        .padding(all = 8.dp)
+                        .alignByBaseline(),
+                )
+                Text(
+                    text = stringResource(id = R.string.str_current_temperature, "-4"),
+                    style = MaterialTheme.typography.displayMedium,
+                    modifier = Modifier
+                        .padding(all = 8.dp)
+                        .alignByBaseline()
+                )
+            }
             Text(
-                text ="city",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(all = 8.dp),
+                text = stringResource(id = R.string.str_feels_like, "-1"),
+                style = MaterialTheme.typography.labelSmall,
+                modifier = Modifier
+                    .padding(all = 8.dp)
+                    .wrapContentWidth(align = Alignment.End)
             )
         }
 
