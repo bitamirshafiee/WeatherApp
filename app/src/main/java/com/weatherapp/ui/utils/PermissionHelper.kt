@@ -50,7 +50,7 @@ fun Permission(
             } else {
                 R.string.str_first_time_or_not_ask_again
             }
-            Button(modifier = Modifier.padding(start = 8.dp, top = 8.dp, end= 8.dp), onClick = {
+            Button(modifier = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp), onClick = {
                 permissionState.launchPermissionRequest()
             }) {
                 Text(

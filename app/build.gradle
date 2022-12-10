@@ -104,4 +104,5 @@ dependencies {
     androidTestImplementation deps.compose.compose_test
     debugImplementation deps.compose.ui_tooling
     debugImplementation deps.compose.ui_test_manifest
+    androidTestImplementation deps.androidx_test.rules
 }
