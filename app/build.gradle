@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -96,6 +97,10 @@ dependencies {
 
     implementation deps.okhhtp
     implementation deps.logging
+
+    //dagger
+    implementation deps.dagger.dagger
+    kapt deps.dagger.compiler
 
     //test
     testImplementation deps.junit

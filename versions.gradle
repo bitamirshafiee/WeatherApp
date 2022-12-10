@@ -26,6 +26,7 @@ versions.compose_activity_version = '1.5.1'
 versions.multidex_version = '2.0.1'
 versions.kotlin_coroutine_test_version = '1.6.3'
 versions.navigation_compose_version = '2.5.3'
+versions.dagger_version = '2.44.2'
 
 deps.kotlin_coroutine_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.kotlin_coroutine_test_version"
 deps.multidex = "androidx.multidex:multidex:$versions.multidex_version"
@@ -77,6 +78,11 @@ def retrofit = [:]
 retrofit.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
 retrofit.convertor = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
 deps.retrofit = retrofit
+
+def dagger = [:]
+dagger.dagger = "com.google.dagger:dagger:$versions.dagger_version"
+dagger.compiler =  "com.google.dagger:dagger-compiler:$versions.dagger_version"
+deps.dagger = dagger
 
 static def addRepos(RepositoryHandler handler) {
     handler.google()
