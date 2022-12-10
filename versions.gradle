@@ -20,7 +20,7 @@ versions.compose_material = '1.1.0-alpha01'
 versions.lifecycle_viewmodel_version = '2.5.1'
 versions.lifecycle_viewmodel_compose_version = '2.5.1'
 versions.compose_test_versions = '1.0.5'
-versions.accompanist_version = '0.23.1'
+versions.accompanist_version = '0.28.0'
 versions.google_services_version = '4.3.10'
 versions.compose_activity_version = '1.5.1'
 versions.multidex_version = '2.0.1'
@@ -41,6 +41,7 @@ deps.okhhtp = "com.squareup.okhttp:okhttp:$versions.okhttp"
 deps.logging = "com.squareup.okhttp3:logging-interceptor:$versions.logging"
 deps.lifecycle_running = "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle_running"
 deps.accompanist = "com.google.accompanist:accompanist-insets:$versions.accompanist_version"
+deps.permission = "com.google.accompanist:accompanist-permissions:$versions.accompanist_version"
 deps.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle_viewmodel_version"
 
 def compose = [:]

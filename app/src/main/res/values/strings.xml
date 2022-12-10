@@ -3,4 +3,8 @@
     <string name="str_weather_condition">weather condition showing by image</string>
     <string name="str_feels_like">Feels like %s\u00B0</string>
     <string name="str_current_temperature">%s\u00B0</string>
+    <string name="str_permission_denied_before">We need Location permission. Please grant the permission.</string>
+    <string name="str_first_time_or_not_ask_again">Location permission required for this feature to be available. Please grant the permission</string>
+    <string name="str_cancel">cancel</string>
+    <string name="str_ok">ok</string>
 </resources>

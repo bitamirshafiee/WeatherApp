@@ -45,9 +45,7 @@ fun CurrentWeather() {
                 )
             )
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "Stockholm",
