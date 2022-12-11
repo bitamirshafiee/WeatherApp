@@ -14,10 +14,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.weatherapp.R
-import com.weatherapp.ui.utils.chooseDrawableAccordingToWeatherState
+import com.weatherapp.ext.chooseDrawableAccordingToWeatherState
+import com.weatherapp.repository.model.response.WeatherResponse
 
 @Composable
-fun CurrentWeather() {
+fun CurrentWeather(weatherResponse: WeatherResponse) {
 
     Card(
         shape = RoundedCornerShape(5.dp),
@@ -48,14 +49,17 @@ fun CurrentWeather() {
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Stockholm",
+                    text = weatherResponse.timezone,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
                         .padding(all = 8.dp)
                         .alignByBaseline(),
                 )
                 Text(
-                    text = stringResource(id = R.string.str_current_temperature, "-4"),
+                    text = stringResource(
+                        id = R.string.str_current_temperature,
+                        weatherResponse.current.temperature
+                    ),
                     style = MaterialTheme.typography.displayMedium,
                     modifier = Modifier
                         .padding(all = 8.dp)
@@ -63,7 +67,10 @@ fun CurrentWeather() {
                 )
             }
             Text(
-                text = stringResource(id = R.string.str_feels_like, "-1"),
+                text = stringResource(
+                    id = R.string.str_feels_like,
+                    weatherResponse.current.feelsLike
+                ),
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier
                     .padding(all = 8.dp)
@@ -77,5 +84,13 @@ fun CurrentWeather() {
 @Preview(showBackground = true)
 @Composable
 fun CurrentWeatherPreview() {
-    CurrentWeather()
+    CurrentWeather(
+        WeatherResponse(
+            timezone = "Stockholm",
+            current = com.weatherapp.repository.model.response.CurrentWeather(
+                temperature = 17.1,
+                feelsLike = 11.1
+            )
+        )
+    )
 }

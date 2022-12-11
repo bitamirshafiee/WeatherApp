@@ -2,8 +2,9 @@ package com.weatherapp.repository.weather
 
 import com.weatherapp.repository.NetworkResult
 import com.weatherapp.repository.model.LocationData
-import com.weatherapp.repository.model.WeatherResponse
+import com.weatherapp.repository.model.response.WeatherResponse
 import com.weatherapp.repository.service.ServiceProvider
+import com.weatherapp.ext.format
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -20,8 +21,8 @@ class WeatherRepositoryImpl(serviceProvider: ServiceProvider) : WeatherRepositor
             try {
                 NetworkResult.Success(
                     weatherService.getWeather(
-                        locationData.latitude,
-                        locationData.longitude
+                        locationData.latitude.format(2),
+                        locationData.longitude.format(2)
                     )
                 )
             } catch (exception: Exception) {
