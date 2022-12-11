@@ -40,12 +40,14 @@ android {
             minifyEnabled true
             shrinkResources true
             debuggable false
+            buildConfigField "String", "baseUrl", "\"https://api.openweathermap.org/data/3.0/onecall\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false
             debuggable true
+            buildConfigField "String", "baseUrl", "\"https://api.openweathermap.org/data/3.0/onecall\""
             applicationIdSuffix = ".debug"
 
         }
