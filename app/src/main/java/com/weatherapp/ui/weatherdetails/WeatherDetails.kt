@@ -11,7 +11,7 @@ import com.weatherapp.ui.utils.Permission
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun WeatherDetails() {
+fun WeatherDetails(weatherDetailsViewModel: WeatherDetailsViewModel) {
     Column(
         modifier = Modifier
             .fillMaxSize()
