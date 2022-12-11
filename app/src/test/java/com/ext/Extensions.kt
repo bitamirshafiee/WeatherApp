@@ -8,14 +8,14 @@ import org.junit.Test
 class Extensions {
 
     @Test
-    fun doubleFormat(){
+    fun doubleFormat() {
         val number = 12.1534567890
         val result = number.format(2)
         assert(result == 12.15)
     }
 
     @Test
-    fun chooseDrawableAccordingToWeatherStateTest(){
+    fun chooseDrawableAccordingToWeatherStateTest() {
         val result1 = chooseDrawableAccordingToWeatherState(205)
         assert(result1 == R.drawable.ic_thunderstorm)
 
