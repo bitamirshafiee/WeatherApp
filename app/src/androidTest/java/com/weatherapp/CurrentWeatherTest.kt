@@ -2,10 +2,7 @@ package com.weatherapp
 
 import android.Manifest
 import android.content.Context
-import androidx.annotation.StringRes
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.*
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -16,8 +13,6 @@ import com.weatherapp.repository.model.response.CurrentWeather
 import com.weatherapp.repository.model.response.Weather
 import com.weatherapp.repository.model.response.WeatherResponse
 import com.weatherapp.repository.weather.WeatherRepository
-import com.weatherapp.ui.NavControllerRoute
-import com.weatherapp.ui.WeatherAppNavHost
 import com.weatherapp.ui.theme.WeatherAppTheme
 import com.weatherapp.ui.weatherdetails.WeatherDetails
 import com.weatherapp.ui.weatherdetails.WeatherDetailsViewModel

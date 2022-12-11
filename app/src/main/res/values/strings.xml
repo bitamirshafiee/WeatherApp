@@ -7,4 +7,10 @@
     <string name="str_first_time_or_not_ask_again">Location permission required for this feature to be available. Please grant the permission</string>
     <string name="str_cancel">cancel</string>
     <string name="str_ok">ok</string>
+    <string name="str_error_unauthorized">unAuthorized</string>
+    <string name="str_error_format">Error in format</string>
+    <string name="str_error_EOF">Error in data conversion</string>
+    <string name="str_error_io">No Internet</string>
+    <string name="str_error_json_syntax">Error in data conversion</string>
+    <string name="str_error_undefined">Error happened</string>
 </resources>

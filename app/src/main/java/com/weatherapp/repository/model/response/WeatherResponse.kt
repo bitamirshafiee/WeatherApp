@@ -8,7 +8,7 @@ fun getDefaultWeatherResponse() =
     WeatherResponse(
         timezone = "", current = CurrentWeather(
             temperature = 0.0, feelsLike = 0.0, listOf(
-                Weather(800)
+                Weather(1000)
             )
         )
     )
