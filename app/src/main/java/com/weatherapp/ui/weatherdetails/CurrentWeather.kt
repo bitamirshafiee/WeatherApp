@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.weatherapp.R
 import com.weatherapp.ext.chooseDrawableAccordingToWeatherState
+import com.weatherapp.repository.model.response.Weather
 import com.weatherapp.repository.model.response.WeatherResponse
 
 @Composable
@@ -39,9 +40,11 @@ fun CurrentWeather(weatherResponse: WeatherResponse) {
                     .wrapContentWidth()
                     .wrapContentHeight()
                     .padding(vertical = 16.dp)
-                    .size(75.dp),
-                painter = painterResource(id = chooseDrawableAccordingToWeatherState(weatherCode = 0)),
-                contentDescription = stringResource(
+                    .size(75.dp), painter = painterResource(
+                    id = chooseDrawableAccordingToWeatherState(
+                        weatherCode = weatherResponse.current.weather.first().weatherCode
+                    )
+                ), contentDescription = stringResource(
                     id = R.string.str_weather_condition
                 )
             )
@@ -57,8 +60,7 @@ fun CurrentWeather(weatherResponse: WeatherResponse) {
                 )
                 Text(
                     text = stringResource(
-                        id = R.string.str_current_temperature,
-                        weatherResponse.current.temperature
+                        id = R.string.str_current_temperature, weatherResponse.current.temperature
                     ),
                     style = MaterialTheme.typography.displayMedium,
                     modifier = Modifier
@@ -68,8 +70,7 @@ fun CurrentWeather(weatherResponse: WeatherResponse) {
             }
             Text(
                 text = stringResource(
-                    id = R.string.str_feels_like,
-                    weatherResponse.current.feelsLike
+                    id = R.string.str_feels_like, weatherResponse.current.feelsLike
                 ),
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier
@@ -88,8 +89,7 @@ fun CurrentWeatherPreview() {
         WeatherResponse(
             timezone = "Stockholm",
             current = com.weatherapp.repository.model.response.CurrentWeather(
-                temperature = 17.1,
-                feelsLike = 11.1
+                temperature = 17.1, feelsLike = 11.1, weather = listOf(Weather(weatherCode = 800))
             )
         )
     )
