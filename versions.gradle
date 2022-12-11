@@ -27,6 +27,7 @@ versions.multidex_version = '2.0.1'
 versions.kotlin_coroutine_test_version = '1.6.3'
 versions.navigation_compose_version = '2.5.3'
 versions.dagger_version = '2.44.2'
+versions.gms_version = '21.0.1'
 
 deps.kotlin_coroutine_test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.kotlin_coroutine_test_version"
 deps.multidex = "androidx.multidex:multidex:$versions.multidex_version"
@@ -44,6 +45,7 @@ deps.lifecycle_running = "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lif
 deps.accompanist = "com.google.accompanist:accompanist-insets:$versions.accompanist_version"
 deps.permission = "com.google.accompanist:accompanist-permissions:$versions.accompanist_version"
 deps.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle_viewmodel_version"
+deps.location = "com.google.android.gms:play-services-location:$versions.gms_version"
 
 def compose = [:]
 compose.bom = "androidx.compose:compose-bom:$versions.compose_bom"

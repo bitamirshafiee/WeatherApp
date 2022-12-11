@@ -91,6 +91,8 @@ dependencies {
 
     implementation deps.viewmodel
 
+    implementation deps.location
+
     implementation deps.permission
 
     //retrofit
