@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -39,12 +40,14 @@ android {
             minifyEnabled true
             shrinkResources true
             debuggable false
+            buildConfigField "String", "baseUrl", "\"https://api.openweathermap.org/data/3.0/\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false
             debuggable true
+            buildConfigField "String", "baseUrl", "\"https://api.openweathermap.org/data/3.0/\""
             applicationIdSuffix = ".debug"
 
         }
@@ -96,6 +99,10 @@ dependencies {
 
     implementation deps.okhhtp
     implementation deps.logging
+
+    //dagger
+    implementation deps.dagger.dagger
+    kapt deps.dagger.compiler
 
     //test
     testImplementation deps.junit
