@@ -2,16 +2,17 @@ package com.weatherapp.ext
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
+import android.location.LocationManager
+import android.provider.Settings
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.CancellationTokenSource
-import com.google.android.gms.tasks.OnTokenCanceledListener
+import androidx.core.location.LocationManagerCompat
 import com.weatherapp.R
 import com.weatherapp.WeatherActivity
+import kotlin.Exception
 
 fun chooseDrawableAccordingToWeatherState(weatherCode: Int): Int {
 
@@ -33,6 +34,7 @@ fun checkPermissionStatus(
     context: Context,
     permission: String,
     isGranted: () -> Unit,
+    isGrantedButLocationNotEnabled: () -> Unit,
     showRational: () -> Unit,
     isNotGranted: () -> Unit,
 ) {
@@ -41,7 +43,11 @@ fun checkPermissionStatus(
             context,
             permission
         ) == PackageManager.PERMISSION_GRANTED -> {
-            isGranted()
+            if (isLocationServiceEnabled(context))
+                isGranted()
+            else {
+                isGrantedButLocationNotEnabled()
+            }
         }
         ActivityCompat.shouldShowRequestPermissionRationale(
             context as WeatherActivity,
@@ -53,5 +59,17 @@ fun checkPermissionStatus(
             isNotGranted()
         }
     }
+}
 
+fun isLocationServiceEnabled(context: Context): Boolean {
+    val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    return LocationManagerCompat.isLocationEnabled(locationManager)
+}
+
+fun enableLocation(context: Context){
+    try {
+        context.startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+    } catch (exception: Exception) {
+        Log.d("ERROR", "${exception.message}")
+    }
 }

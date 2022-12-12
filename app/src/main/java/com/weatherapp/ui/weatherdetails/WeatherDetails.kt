@@ -26,10 +26,13 @@ import com.weatherapp.R
 import com.weatherapp.ext.checkPermissionStatus
 import com.weatherapp.repository.model.LocationData
 import com.weatherapp.ui.utils.ErrorDialog
+import com.weatherapp.ui.utils.OpenSettingsDialogCamera
+
 
 @SuppressLint("MissingPermission")
 @Composable
 fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
+
 
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -38,6 +41,7 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
     var appStatusInformation by remember { mutableStateOf("Is Loading ...") }
     val weatherData by viewModel.weatherResult.collectAsState()
     val errorDialog by viewModel.isShowErrorDialog.collectAsState()
+    var enableLocationDialog by remember { mutableStateOf(false) }
     val isProgressVisible by viewModel.isInProgress.collectAsState(initial = true)
 
     val getWeatherInformation: (Location?) -> Unit = {
@@ -54,6 +58,7 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
+
             fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY,
                 object : CancellationToken() {
                     override fun onCanceledRequested(p0: OnTokenCanceledListener) =
@@ -86,6 +91,9 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
                             getWeatherInformation(location)
                         }
                     },
+                    isGrantedButLocationNotEnabled = {
+                        enableLocationDialog = true
+                    },
                     showRational = {
                         appStatusInformation =
                             context.getString(R.string.str_why_we_need_permission)
@@ -108,6 +116,10 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
                 viewModel.resetErrorDialog()
             }
         }
+        if (enableLocationDialog)
+            OpenSettingsDialogCamera{
+                enableLocationDialog = false
+            }
         Column(
             modifier = Modifier
                 .fillMaxSize()

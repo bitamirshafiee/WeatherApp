@@ -20,7 +20,6 @@ import com.weatherapp.repository.model.response.WeatherResponse
 
 @Composable
 fun CurrentWeather(weatherResponse: WeatherResponse) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize(),

@@ -15,4 +15,6 @@
     <string name="str_error_undefined">Error happened</string>
     <string name="str_feature_is_unavailable">The feature is unavailable because feature requires a permission that you have denied.</string>
     <string name="str_why_we_need_permission">We need this permission to provide weather information for you.</string>
+    <string name="str_open_settings">open settings</string>
+    <string name="str_open_location_setting">We need you to enable location to proceed with this feature.</string>
 </resources>
