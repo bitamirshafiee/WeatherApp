@@ -2,8 +2,6 @@ package com.weatherapp.ui.weatherdetails
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,17 +21,9 @@ import com.weatherapp.repository.model.response.WeatherResponse
 @Composable
 fun CurrentWeather(weatherResponse: WeatherResponse) {
 
-    Card(
-        shape = RoundedCornerShape(5.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(all = 16.dp)
-            .wrapContentHeight()
-    ) {
         Column(
             modifier = Modifier
-                .wrapContentHeight()
-                .fillMaxWidth(),
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -83,8 +73,6 @@ fun CurrentWeather(weatherResponse: WeatherResponse) {
                     .wrapContentWidth(align = Alignment.End)
             )
         }
-
-    }
 }
 
 @Preview(showBackground = true)
