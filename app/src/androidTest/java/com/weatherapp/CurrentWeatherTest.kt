@@ -8,6 +8,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
+import com.google.gson.JsonSyntaxException
 import com.weatherapp.repository.NetworkResult
 import com.weatherapp.repository.model.LocationData
 import com.weatherapp.repository.model.response.CurrentWeather
@@ -26,6 +27,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import retrofit2.HttpException
 import retrofit2.Response
+import java.io.EOFException
+import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
 class CurrentWeatherTest {
@@ -74,6 +77,76 @@ class CurrentWeatherTest {
         composeTestRule.onNodeWithText("unAuthorized").assertExists()
     }
 
+    @Test
+    fun checkGetWeatherAPIFail_FormatException_Test() {
+        viewModel = WeatherDetailsViewModel(MockRepositorySuccess(2))
+        composeTestRule.setContent {
+            WeatherAppTheme {
+                WeatherDetails(viewModel = viewModel)
+            }
+        }
+
+        viewModel.getCurrentWeather(LocationData(12.56, 34.6))
+        composeTestRule.onAllNodes(isRoot()).printToLog("TAG")
+        composeTestRule.onNodeWithText("Error in format").assertExists()
+    }
+
+    @Test
+    fun checkGetWeatherAPIFail_EOFException_Test() {
+        viewModel = WeatherDetailsViewModel(MockRepositorySuccess(3))
+        composeTestRule.setContent {
+            WeatherAppTheme {
+                WeatherDetails(viewModel = viewModel)
+            }
+        }
+
+        viewModel.getCurrentWeather(LocationData(12.56, 34.6))
+        composeTestRule.onAllNodes(isRoot()).printToLog("TAG")
+        composeTestRule.onNodeWithText("Error in data conversion").assertExists()
+    }
+
+    @Test
+    fun checkGetWeatherAPIFail_IOException_Test() {
+        viewModel = WeatherDetailsViewModel(MockRepositorySuccess(4))
+        composeTestRule.setContent {
+            WeatherAppTheme {
+                WeatherDetails(viewModel = viewModel)
+            }
+        }
+
+        viewModel.getCurrentWeather(LocationData(12.56, 34.6))
+        composeTestRule.onAllNodes(isRoot()).printToLog("TAG")
+        composeTestRule.onNodeWithText("No Internet").assertExists()
+    }
+
+    @Test
+    fun checkGetWeatherAPIFail_JsonSyntaxException_Test() {
+        viewModel = WeatherDetailsViewModel(MockRepositorySuccess(5))
+        composeTestRule.setContent {
+            WeatherAppTheme {
+                WeatherDetails(viewModel = viewModel)
+            }
+        }
+
+        viewModel.getCurrentWeather(LocationData(12.56, 34.6))
+        composeTestRule.onAllNodes(isRoot()).printToLog("TAG")
+        composeTestRule.onNodeWithText("Error in data conversion").assertExists()
+    }
+
+    @Test
+    fun checkGetWeatherAPIFail_UNDEFINE_Test() {
+        viewModel = WeatherDetailsViewModel(MockRepositorySuccess(10))
+        composeTestRule.setContent {
+            WeatherAppTheme {
+                WeatherDetails(viewModel = viewModel)
+            }
+        }
+
+        viewModel.getCurrentWeather(LocationData(12.56, 34.6))
+        composeTestRule.onAllNodes(isRoot()).printToLog("TAG")
+        composeTestRule.onNodeWithText("Error happened").assertExists()
+    }
+
 }
 
 class MockRepositorySuccess(private val responseType: Int? = null) : WeatherRepository() {
@@ -98,6 +171,10 @@ class MockRepositorySuccess(private val responseType: Int? = null) : WeatherRepo
                 )
             )
             2 -> NetworkResult.Failure(FormatException("WrongFormat"))
+            3 -> NetworkResult.Failure(EOFException("EOFException"))
+            4 -> NetworkResult.Failure(IOException("IOException"))
+            5 -> NetworkResult.Failure(JsonSyntaxException("JsonSyntaxException"))
+
             else -> NetworkResult.Failure(Throwable())
         }
 
