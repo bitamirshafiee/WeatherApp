@@ -70,6 +70,7 @@ class CurrentWeatherTest {
         }
 
         viewModel.getCurrentWeather(LocationData(12.56, 34.6))
+        composeTestRule.onAllNodes(isRoot()).printToLog("TAG")
         composeTestRule.onNodeWithText("unAuthorized").assertExists()
     }
 
