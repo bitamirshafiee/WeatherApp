@@ -1,4 +1,4 @@
-package com.ext
+package com.weatherapp.ext
 
 import com.weatherapp.R
 import com.weatherapp.ext.chooseDrawableAccordingToWeatherState
