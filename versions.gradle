@@ -42,8 +42,6 @@ deps.activity = "androidx.activity:activity-ktx:$versions.activity"
 deps.okhhtp = "com.squareup.okhttp:okhttp:$versions.okhttp"
 deps.logging = "com.squareup.okhttp3:logging-interceptor:$versions.logging"
 deps.lifecycle_running = "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle_running"
-deps.accompanist = "com.google.accompanist:accompanist-insets:$versions.accompanist_version"
-deps.permission = "com.google.accompanist:accompanist-permissions:$versions.accompanist_version"
 deps.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle_viewmodel_version"
 deps.location = "com.google.android.gms:play-services-location:$versions.gms_version"
 

@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class WeatherDetailsViewModel(private val weatherRepository: WeatherRepository) : ViewModel() {
 
-    private val _isInProgress = MutableStateFlow(false)
+    private val _isInProgress = MutableStateFlow(true)
     val isInProgress: StateFlow<Boolean> = _isInProgress
 
     private val _weatherResult = MutableStateFlow(getDefaultWeatherResponse())
@@ -30,8 +30,10 @@ class WeatherDetailsViewModel(private val weatherRepository: WeatherRepository) 
 
     fun getCurrentWeather(locationData: LocationData) {
         viewModelScope.launch {
+            _isInProgress.value = true
             when (val result = weatherRepository.getWeather(locationData)) {
                 is NetworkResult.Success -> {
+                    _isInProgress.value = false
                     _weatherResult.value = result.data
                 }
                 is NetworkResult.Failure -> {
