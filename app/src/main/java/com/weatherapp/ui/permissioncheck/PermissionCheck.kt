@@ -1,4 +1,4 @@
-package com.weatherapp.ui
+package com.weatherapp.ui.permissioncheck
 
 import androidx.compose.runtime.Composable
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
