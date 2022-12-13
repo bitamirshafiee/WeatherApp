@@ -20,12 +20,16 @@ import com.weatherapp.repository.model.response.WeatherResponse
 
 @Composable
 fun CurrentWeather(weatherResponse: WeatherResponse) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
+            Spacer(modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp))
             Image(
                 modifier = Modifier
                     .wrapContentWidth()
@@ -40,7 +44,10 @@ fun CurrentWeather(weatherResponse: WeatherResponse) {
                 )
             )
             Row(
-                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 48.dp),
+                horizontalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = weatherResponse.timezone,
@@ -66,9 +73,9 @@ fun CurrentWeather(weatherResponse: WeatherResponse) {
                 text = stringResource(
                     id = R.string.str_feels_like, weatherResponse.current.feelsLike
                 ),
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier
-                    .padding(all = 8.dp)
+                    .padding(top = 24.dp)
                     .wrapContentWidth(align = Alignment.End)
             )
         }

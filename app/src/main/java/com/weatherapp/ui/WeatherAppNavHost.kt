@@ -1,15 +1,13 @@
 package com.weatherapp.ui
 
-import android.Manifest
-import android.content.pm.PackageManager
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.weatherapp.di.repository.RepositoryModule
 import com.weatherapp.di.weatherdetails.DaggerWeatherDetailsComponent
-import com.weatherapp.ext.isLocationServiceEnabled
 import com.weatherapp.ui.locationcheck.LocationCheck
 import com.weatherapp.ui.permissioncheck.PermissionCheck
 import com.weatherapp.ui.utils.daggerViewModel
@@ -19,34 +17,20 @@ import com.weatherapp.ui.weatherdetails.WeatherDetailsViewModel
 @Composable
 fun WeatherAppNavHost(appState: WeatherAppState = rememberWeatherAppState()) {
 
-    val context = LocalContext.current
-
     NavHost(
         navController = appState.navController,
-        startDestination = NavControllerRoute.PermissionCheck.route
+        startDestination = NavControllerRoute.PermissionCheck.route,
+        modifier = Modifier.padding(16.dp)
     ) {
         composable(route = NavControllerRoute.PermissionCheck.route) {
-            if (ContextCompat.checkSelfPermission(
-                    context, Manifest.permission.ACCESS_COARSE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            )
-            appState.navigateTo(NavControllerRoute.LocationCheck.route)
-            else
-                PermissionCheck {
-                    appState.navigateTo(NavControllerRoute.LocationCheck.route)
-                }
+            PermissionCheck(navigateToCheckIfLocationIsEnabled = {
+                appState.navigateTo(NavControllerRoute.LocationCheck.route)
+            })
         }
-
         composable(route = NavControllerRoute.LocationCheck.route) {
-
-            if (isLocationServiceEnabled(context = context)) {
-                //navigate to weather details with lat and lon
-            } else {
-                LocationCheck {
-                    //navigate to weather details with lat and lon
-                }
+            LocationCheck {
+                appState.navigateTo(NavControllerRoute.WeatherDetails.route)
             }
-
         }
         composable(route = NavControllerRoute.WeatherDetails.route) {
             val component =

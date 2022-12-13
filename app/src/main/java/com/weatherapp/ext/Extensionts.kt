@@ -34,7 +34,6 @@ fun checkPermissionStatus(
     context: Context,
     permission: String,
     isGranted: () -> Unit,
-    isGrantedButLocationNotEnabled: () -> Unit,
     showRational: () -> Unit,
     isNotGranted: () -> Unit,
 ) {
@@ -43,11 +42,7 @@ fun checkPermissionStatus(
             context,
             permission
         ) == PackageManager.PERMISSION_GRANTED -> {
-            if (isLocationServiceEnabled(context))
-                isGranted()
-            else {
-                isGrantedButLocationNotEnabled()
-            }
+            isGranted()
         }
         ActivityCompat.shouldShowRequestPermissionRationale(
             context as WeatherActivity,

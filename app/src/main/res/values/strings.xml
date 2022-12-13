@@ -4,7 +4,8 @@
     <string name="str_feels_like">Feels like %.0f\u00B0</string>
     <string name="str_current_temperature">%.0f\u00B0</string>
     <string name="str_permission_denied_before">We need Location permission. Please grant the permission.</string>
-    <string name="str_first_time_or_not_ask_again">Location permission required for this feature to be available. Please grant the permission</string>
+    <string name="str_first_time_or_not_ask_again">Location permission required for this feature to
+        be available. Please grant the permission</string>
     <string name="str_cancel">cancel</string>
     <string name="str_ok">ok</string>
     <string name="str_error_unauthorized">unAuthorized</string>
@@ -13,8 +14,12 @@
     <string name="str_error_io">No Internet</string>
     <string name="str_error_json_syntax">Error in data conversion</string>
     <string name="str_error_undefined">Error happened</string>
-    <string name="str_feature_is_unavailable">The feature is unavailable because feature requires a permission that you have denied.</string>
-    <string name="str_why_we_need_permission">We need this permission to provide weather information for you.</string>
+    <string name="str_feature_is_unavailable">The feature is unavailable because it requires a
+        location permission to continue.</string>
+    <string name="str_why_we_need_permission">We need this permission to provide weather information
+        for you.</string>
     <string name="str_open_settings">open settings</string>
     <string name="str_open_location_setting">We need you to enable location to proceed with this feature.</string>
+    <string name="str_location_permission_need">feature needs locaion permission</string>
+    <string name="str_click_to_enable">Click to Enable</string>
 </resources>
