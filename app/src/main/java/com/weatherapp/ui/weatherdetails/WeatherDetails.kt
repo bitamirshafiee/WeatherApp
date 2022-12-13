@@ -1,10 +1,9 @@
 package com.weatherapp.ui.weatherdetails
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.location.Location
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -14,35 +13,57 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.testTag
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationToken
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.google.android.gms.tasks.OnTokenCanceledListener
-import com.weatherapp.R
-import com.weatherapp.ext.checkPermissionStatus
+import com.weatherapp.ext.isLocationServiceEnabled
 import com.weatherapp.repository.model.LocationData
 import com.weatherapp.ui.utils.ErrorDialog
 import com.weatherapp.ui.utils.OpenSettingsDialogCamera
+import com.weatherapp.ui.utils.PermissionHelper
 
 
-@SuppressLint("MissingPermission")
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
 
-
     val context = LocalContext.current
-    val lifecycleOwner = LocalLifecycleOwner.current
     val fusedLocationClient: FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
-    var appStatusInformation by remember { mutableStateOf("Is Loading ...") }
+    val appStatusInformation by remember { mutableStateOf("Is Loading ...") }
     val weatherData by viewModel.weatherResult.collectAsState()
     val errorDialog by viewModel.isShowErrorDialog.collectAsState()
-    var enableLocationDialog by remember { mutableStateOf(false) }
+    var enableLocationDialog by remember { mutableStateOf(!isLocationServiceEnabled(context = context)) }
+    var locationEnabled by remember { mutableStateOf(isLocationServiceEnabled(context = context)) }
     val isProgressVisible by viewModel.isInProgress.collectAsState(initial = true)
+    var isPermissionGranted by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                context, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+
+
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(key1 = lifecycleOwner, effect = {
+        val observer = LifecycleEventObserver { _, event ->
+
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    })
 
     val getWeatherInformation: (Location?) -> Unit = {
         it?.let {
@@ -53,13 +74,10 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
             )
         }
     }
-
-    val launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-
-            fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY,
+    LaunchedEffect(key1 = isPermissionGranted,locationEnabled) {
+        if (isPermissionGranted && locationEnabled)
+            fusedLocationClient.getCurrentLocation(
+                Priority.PRIORITY_BALANCED_POWER_ACCURACY,
                 object : CancellationToken() {
                     override fun onCanceledRequested(p0: OnTokenCanceledListener) =
                         CancellationTokenSource().token
@@ -68,47 +86,14 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
                 }).addOnSuccessListener { location: Location? ->
                 getWeatherInformation(location)
             }
-
-        } else {
-            appStatusInformation = context.getString(R.string.str_feature_is_unavailable)
-        }
     }
-
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_START) {
-                checkPermissionStatus(
-                    context = context,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    isGranted = {
-                        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY,
-                            object : CancellationToken() {
-                                override fun onCanceledRequested(p0: OnTokenCanceledListener) =
-                                    CancellationTokenSource().token
-
-                                override fun isCancellationRequested() = false
-                            }).addOnSuccessListener { location: Location? ->
-                            getWeatherInformation(location)
-                        }
-                    },
-                    isGrantedButLocationNotEnabled = {
-                        enableLocationDialog = true
-                    },
-                    showRational = {
-                        appStatusInformation =
-                            context.getString(R.string.str_why_we_need_permission)
-                        launcher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-                    },
-                    isNotGranted = {
-                        launcher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-                    })
-            }
-        }
-        lifecycleOwner.lifecycle.addObserver(observer)
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
-    }
+        PermissionHelper(permission = Manifest.permission.ACCESS_COARSE_LOCATION,
+            permissionGranted = {
+                isPermissionGranted = true
+            },
+            locationEnabled = {
+                locationEnabled = true
+            })
 
     Box {
         if (errorDialog.first) {
@@ -116,10 +101,9 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
                 viewModel.resetErrorDialog()
             }
         }
-        if (enableLocationDialog)
-            OpenSettingsDialogCamera{
-                enableLocationDialog = false
-            }
+        if (enableLocationDialog) OpenSettingsDialogCamera {
+            enableLocationDialog = false
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -127,20 +111,19 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
         ) {
 
             Box(modifier = Modifier) {
-                if (isProgressVisible)
-                    Text(
-                        text = appStatusInformation,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth()
-                            .wrapContentWidth(Alignment.CenterHorizontally)
-                            .wrapContentHeight(Alignment.CenterVertically)
-                            .testTag("prog")
-                    )
-                else
-                    CurrentWeather(weatherData)
+                if (isProgressVisible) Text(
+                    text = appStatusInformation,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.CenterHorizontally)
+                        .wrapContentHeight(Alignment.CenterVertically)
+                        .testTag("prog")
+                )
+                else CurrentWeather(weatherData)
             }
         }
     }
 }
+

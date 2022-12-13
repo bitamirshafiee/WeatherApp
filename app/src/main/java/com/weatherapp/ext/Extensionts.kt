@@ -11,7 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.location.LocationManagerCompat
 import com.weatherapp.R
-import com.weatherapp.WeatherActivity
+import com.weatherapp.ui.WeatherActivity
 import kotlin.Exception
 
 fun chooseDrawableAccordingToWeatherState(weatherCode: Int): Int {

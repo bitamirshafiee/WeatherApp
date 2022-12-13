@@ -8,7 +8,6 @@ import com.weatherapp.repository.model.LocationData
 import com.weatherapp.repository.model.response.WeatherResponse
 import com.weatherapp.repository.model.response.getDefaultWeatherResponse
 import com.weatherapp.repository.weather.WeatherRepository
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
