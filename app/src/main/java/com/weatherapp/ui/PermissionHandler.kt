@@ -6,7 +6,7 @@ import com.weatherapp.ui.utils.PermissionHelper
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun PermissionHandler(navigateToCheckIfLocationIsEnabled: () -> Unit) {
+fun PermissionCheck(navigateToCheckIfLocationIsEnabled: () -> Unit) {
 
     PermissionHelper(permission = android.Manifest.permission.ACCESS_COARSE_LOCATION) {
 

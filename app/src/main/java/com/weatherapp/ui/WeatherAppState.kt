@@ -37,4 +37,5 @@ sealed class NavControllerRoute(
     val route: String,
 ) {
     object WeatherDetails : NavControllerRoute("weather_details")
+    object PermissionCheck : NavControllerRoute("PermissionCheck")
 }
