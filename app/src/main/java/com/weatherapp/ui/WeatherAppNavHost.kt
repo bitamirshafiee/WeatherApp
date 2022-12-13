@@ -9,6 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.weatherapp.di.repository.RepositoryModule
 import com.weatherapp.di.weatherdetails.DaggerWeatherDetailsComponent
+import com.weatherapp.ext.isLocationServiceEnabled
+import com.weatherapp.ui.locationcheck.LocationCheck
 import com.weatherapp.ui.permissioncheck.PermissionCheck
 import com.weatherapp.ui.utils.daggerViewModel
 import com.weatherapp.ui.weatherdetails.WeatherDetails
@@ -21,18 +23,30 @@ fun WeatherAppNavHost(appState: WeatherAppState = rememberWeatherAppState()) {
 
     NavHost(
         navController = appState.navController,
-        startDestination = NavControllerRoute.WeatherDetails.route
+        startDestination = NavControllerRoute.PermissionCheck.route
     ) {
         composable(route = NavControllerRoute.PermissionCheck.route) {
             if (ContextCompat.checkSelfPermission(
                     context, Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
             )
-            //navigate to location check
+            appState.navigateTo(NavControllerRoute.LocationCheck.route)
             else
                 PermissionCheck {
-                    //navigate to location check
+                    appState.navigateTo(NavControllerRoute.LocationCheck.route)
                 }
+        }
+
+        composable(route = NavControllerRoute.LocationCheck.route) {
+
+            if (isLocationServiceEnabled(context = context)) {
+                //navigate to weather details with lat and lon
+            } else {
+                LocationCheck {
+                    //navigate to weather details with lat and lon
+                }
+            }
+
         }
         composable(route = NavControllerRoute.WeatherDetails.route) {
             val component =
