@@ -87,13 +87,6 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
                 getWeatherInformation(location)
             }
     }
-        PermissionHelper(permission = Manifest.permission.ACCESS_COARSE_LOCATION,
-            permissionGranted = {
-                isPermissionGranted = true
-            },
-            locationEnabled = {
-                locationEnabled = true
-            })
 
     Box {
         if (errorDialog.first) {
