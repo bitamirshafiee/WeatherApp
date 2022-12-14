@@ -1,0 +1,47 @@
+version: 2.1
+orbs:
+  android: circleci/android@1.0.3
+references:
+  workspace: &workspace
+               ~/src
+
+  android_config: &android_config
+    working_directory: *workspace
+    environment:
+      TERM: dumb
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m"'
+
+  android_dependencies: &android_dependencies
+    run:
+      name: Download Android Dependencies
+      command: ./gradlew androidDependencies
+
+      create_keystore_properties: &create_keystore_properties
+        run:
+          name: Create keystore.properties
+          command: printf 'keyAlias=%s\nkeyPassword=%s\nstorePassword=%s\nstoreFile=%s' \
+            $RELEASE_KEY_ALIAS $RELEASE_KEY_PASSWORD $RELEASE_STORE_PASSWORD ${PATH_KEY} > keystore.properties
+
+      decode_android_key: &decode_android_key
+        run:
+          name: Decode Android key store
+          command: echo $KEYSTORE | base64 -di | tee keystore app/keystore > /dev/null
+
+jobs:
+  build:
+    executor: android/android-machine
+    <<: *android_config
+    steps:
+      - checkout
+      - android/restore-gradle-cache
+      - android/restore-build-cache
+      - *create_keystore_properties
+      - *decode_android_key
+      - *android_dependencies
+      - android/run-tests:
+          test-command: ./gradlew testDebug
+      - android/start-emulator-and-run-tests:
+          test-command: ./gradlew connectedDebugAndroidTest
+          system-image: system-images;android-30;google_apis;x86
+      - android/save-gradle-cache
+      - android/save-build-cache

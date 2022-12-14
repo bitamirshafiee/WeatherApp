@@ -1,18 +1,33 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
+
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     namespace 'com.weatherapp'
-    compileSdk 32
+    compileSdk deps.build_versions.compile_sdk
 
     defaultConfig {
         applicationId "com.weatherapp"
-        minSdk 24
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        minSdk deps.build_versions.min_sdk
+        targetSdk deps.build_versions.target_sdk
+        versionCode deps.version.code
+        setProperty("archivesBaseName", generateAppName())
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -22,8 +37,19 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            buildConfigField "String", "baseUrl", "\"https://api.openweathermap.org/data/3.0/\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            buildConfigField "String", "baseUrl", "\"https://api.openweathermap.org/data/3.0/\""
+            applicationIdSuffix = ".debug"
+
         }
     }
     compileOptions {
@@ -37,7 +63,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
+        kotlinCompilerExtensionVersion '1.3.2'
     }
     packagingOptions {
         resources {
@@ -48,16 +74,42 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation 'androidx.compose.material3:material3:1.0.0-alpha02'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    implementation deps.core_ktx
+    implementation deps.lifecycle_running
+
+    //compose
+    def composeBom = platform(deps.compose.bom)
+    implementation composeBom
+    androidTestImplementation composeBom
+
+    implementation deps.compose.compose_activity
+    implementation deps.compose.ui
+    implementation deps.compose.ui_tooling_preview
+    implementation deps.compose.material
+    implementation deps.compose.lifecycle_viewmodel_compose
+    implementation deps.compose.navigation
+
+    implementation deps.viewmodel
+
+    implementation deps.location
+
+    //retrofit
+    implementation deps.retrofit.retrofit
+    implementation deps.retrofit.convertor
+
+    implementation deps.okhhtp
+    implementation deps.logging
+
+    //dagger
+    implementation deps.dagger.dagger
+    kapt deps.dagger.compiler
+
+    //test
+    testImplementation deps.junit
+    androidTestImplementation deps.androidxJunit
+    androidTestImplementation deps.espresso.core
+    androidTestImplementation deps.compose.compose_test
+    debugImplementation deps.compose.ui_tooling
+    debugImplementation deps.compose.ui_test_manifest
+    androidTestImplementation deps.androidx_test.rules
 }

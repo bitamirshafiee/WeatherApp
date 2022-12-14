@@ -1,0 +1,94 @@
+ext.deps = [:]
+def versions = [:]
+versions.android_gradle_plugin = '7.0.1'
+versions.kotlin = '1.6.10'
+versions.androidx_test = '1.5.0'
+versions.espresso = '3.5.0'
+versions.core_ktx = '1.9.0'
+versions.lifecycle = '2.3.1'
+versions.junit = '4.13.2'
+versions.androidxJunit = '1.1.4'
+versions.retrofit = '2.9.0'
+versions.okhttp = '2.7.5'
+versions.logging = '4.9.0'
+versions.compose_bom = '2022.10.00'
+versions.lifecycle_running = '2.5.1'
+versions.compose_material = '1.1.0-alpha01'
+versions.lifecycle_viewmodel_version = '2.5.1'
+versions.lifecycle_viewmodel_compose_version = '2.5.1'
+versions.compose_test_versions = '1.0.5'
+versions.accompanist_version = '0.28.0'
+versions.google_services_version = '4.3.10'
+versions.compose_activity_version = '1.5.1'
+versions.navigation_compose_version = '2.5.3'
+versions.dagger_version = '2.44.2'
+versions.gms_version = '21.0.1'
+
+deps.google_services = "com.google.gms:google-services:$versions.google_services_version"
+deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+deps.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
+deps.junit = "junit:junit:$versions.junit"
+deps.androidxJunit = "androidx.test.ext:junit-ktx:$versions.androidxJunit"
+deps.okhhtp = "com.squareup.okhttp:okhttp:$versions.okhttp"
+deps.logging = "com.squareup.okhttp3:logging-interceptor:$versions.logging"
+deps.lifecycle_running = "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle_running"
+deps.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle_viewmodel_version"
+deps.location = "com.google.android.gms:play-services-location:$versions.gms_version"
+
+def compose = [:]
+compose.bom = "androidx.compose:compose-bom:$versions.compose_bom"
+compose.ui = "androidx.compose.ui:ui"
+compose.ui_tooling = "androidx.compose.ui:ui-tooling"
+compose.ui_tooling_preview = "androidx.compose.ui:ui-tooling-preview"
+compose.ui_test_manifest = "androidx.compose.ui:ui-test-manifest"
+compose.material = "androidx.compose.material3:material3"
+compose.lifecycle_viewmodel_compose = "androidx.lifecycle:lifecycle-viewmodel-compose:$versions.lifecycle_viewmodel_compose_version"//
+compose.compose_test = "androidx.compose.ui:ui-test-junit4"
+compose.compose_activity = "androidx.activity:activity-compose:$versions.compose_activity_version"
+compose.navigation = "androidx.navigation:navigation-compose:$versions.navigation_compose_version"
+deps.compose = compose
+
+
+def androidx_test = [:]
+androidx_test.rules = "androidx.test:rules:$versions.androidx_test"
+deps.androidx_test = androidx_test
+
+def espresso = [:]
+espresso.core = "androidx.test.espresso:espresso-core:$versions.espresso"//
+deps.espresso = espresso
+
+def retrofit = [:]
+retrofit.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
+retrofit.convertor = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+deps.retrofit = retrofit
+
+def dagger = [:]
+dagger.dagger = "com.google.dagger:dagger:$versions.dagger_version"
+dagger.compiler =  "com.google.dagger:dagger-compiler:$versions.dagger_version"
+deps.dagger = dagger
+
+static def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.mavenCentral()
+}
+
+ext.addRepos = this.&addRepos
+
+def build_versions = [:]
+build_versions.compile_sdk = 33
+build_versions.build_tools = "30.0.3"
+build_versions.min_sdk = 24
+build_versions.target_sdk = 33
+deps.build_versions = build_versions
+
+def version = [:]
+version.major = 1
+version.minor = 0
+version.patch = 0
+version.code = 1
+deps.version = version
+
+ext.generateAppName = {
+    "Weather-app-${deps.version.major}.${deps.version.minor}.${deps.version.patch}"
+}
+ext.deps = deps
