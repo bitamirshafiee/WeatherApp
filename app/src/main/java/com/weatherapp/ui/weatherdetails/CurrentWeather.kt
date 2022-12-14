@@ -21,64 +21,64 @@ import com.weatherapp.repository.model.response.WeatherResponse
 @Composable
 fun CurrentWeather(weatherResponse: WeatherResponse) {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
 
-            Spacer(modifier = Modifier
+        Spacer(
+            modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp))
-            Image(
-                modifier = Modifier
-                    .wrapContentWidth()
-                    .wrapContentHeight()
-                    .padding(vertical = 16.dp)
-                    .size(75.dp), painter = painterResource(
-                    id = chooseDrawableAccordingToWeatherState(
-                        weatherCode = weatherResponse.current.weather.first().weatherCode
-                    )
-                ), contentDescription = stringResource(
-                    id = R.string.str_weather_condition
+                .height(70.dp)
+        )
+        Image(
+            modifier = Modifier
+                .wrapContentWidth()
+                .wrapContentHeight()
+                .padding(vertical = 16.dp)
+                .size(75.dp), painter = painterResource(
+                id = chooseDrawableAccordingToWeatherState(
+                    weatherCode = if (weatherResponse.current.weather.isNotEmpty()) weatherResponse.current.weather.first().weatherCode
+                    else 1000
                 )
+            ), contentDescription = stringResource(
+                id = R.string.str_weather_condition
             )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 48.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = weatherResponse.timezone,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier
-                        .padding(all = 8.dp)
-                        .alignByBaseline(),
-                )
-                Text(
-                    text = stringResource(
-                        id = R.string.str_current_temperature, weatherResponse.current.temperature
-                    ),
-                    style = MaterialTheme.typography.displayMedium,
-                    modifier = Modifier
-                        .padding(all = 8.dp)
-                        .alignByBaseline()
-                        .semantics {
-                            contentDescription = "currentWeather"
-                        }
-                )
-            }
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 48.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
             Text(
-                text = stringResource(
-                    id = R.string.str_feels_like, weatherResponse.current.feelsLike
-                ),
-                style = MaterialTheme.typography.labelMedium,
+                text = weatherResponse.timezone,
+                style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier
-                    .padding(top = 24.dp)
-                    .wrapContentWidth(align = Alignment.End)
+                    .padding(all = 8.dp)
+                    .alignByBaseline(),
             )
+            Text(text = stringResource(
+                id = R.string.str_current_temperature, weatherResponse.current.temperature
+            ),
+                style = MaterialTheme.typography.displayMedium,
+                modifier = Modifier
+                    .padding(all = 8.dp)
+                    .alignByBaseline()
+                    .semantics {
+                        contentDescription = "currentWeather"
+                    })
         }
+        Text(
+            text = stringResource(
+                id = R.string.str_feels_like, weatherResponse.current.feelsLike
+            ),
+            style = MaterialTheme.typography.labelMedium,
+            modifier = Modifier
+                .padding(top = 24.dp)
+                .wrapContentWidth(align = Alignment.End)
+        )
+    }
 }
 
 @Preview(showBackground = true)
