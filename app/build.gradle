@@ -93,8 +93,6 @@ dependencies {
 
     implementation deps.location
 
-    implementation deps.permission
-
     //retrofit
     implementation deps.retrofit.retrofit
     implementation deps.retrofit.convertor
