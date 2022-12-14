@@ -29,11 +29,11 @@ fun WeatherDetails(viewModel: WeatherDetailsViewModel) {
     val errorDialog by viewModel.isShowErrorDialog.collectAsState()
     val isProgressVisible by viewModel.isInProgress.collectAsState(initial = true)
 
-    val getWeatherInformation: (Location?) -> Unit = {
-        it?.let {
+    val getWeatherInformation: (Location?) -> Unit = { location ->
+        location?.let { value ->
             viewModel.getCurrentWeather(
                 LocationData(
-                    it.latitude, it.longitude
+                    value.latitude, value.longitude
                 )
             )
         }
