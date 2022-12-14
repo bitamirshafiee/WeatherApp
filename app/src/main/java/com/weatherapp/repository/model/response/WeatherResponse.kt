@@ -2,7 +2,10 @@ package com.weatherapp.repository.model.response
 
 import com.google.gson.annotations.SerializedName
 
-data class WeatherResponse(val timezone: String, val current: CurrentWeather)
+data class WeatherResponse(
+    @SerializedName("timezone") val timezone: String,
+    @SerializedName("current") val current: CurrentWeather
+)
 
 fun getDefaultWeatherResponse() =
     WeatherResponse(
