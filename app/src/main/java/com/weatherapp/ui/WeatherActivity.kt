@@ -1,4 +1,4 @@
-package com.weatherapp
+package com.weatherapp.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,12 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.weatherapp.ui.WeatherAppNavHost
+import androidx.core.view.WindowCompat
 import com.weatherapp.ui.theme.WeatherAppTheme
 
 class WeatherActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             WeatherAppTheme {
                 Surface(
