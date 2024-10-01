@@ -21,7 +21,7 @@ versions.accompanist_version = '0.28.0'
 versions.google_services_version = '4.3.10'
 versions.compose_activity_version = '1.5.1'
 versions.navigation_compose_version = '2.5.3'
-versions.dagger_version = '2.44.2'
+versions.dagger_version = '2.52'
 versions.gms_version = '21.0.1'
 
 deps.google_services = "com.google.gms:google-services:$versions.google_services_version"
