@@ -30,7 +30,7 @@ class WeatherAppState(
 sealed class NavControllerRoute(
     val route: String,
 ) {
-    object WeatherDetails : NavControllerRoute("weatherdetails")
-    object PermissionCheck : NavControllerRoute("permissioncheck")
-    object LocationCheck : NavControllerRoute("Locationcheck")
+    data object WeatherDetails : NavControllerRoute("weatherdetails")
+    data object PermissionCheck : NavControllerRoute("permissioncheck")
+    data object LocationCheck : NavControllerRoute("Locationcheck")
 }
